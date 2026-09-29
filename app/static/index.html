@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Atlas RAG</title><link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <main>
+    <header><div class="mark">A</div><div><h1>Atlas RAG</h1><p>Private knowledge, grounded answers.</p></div><span id="status">Checking…</span></header>
+    <section class="grid">
+      <aside class="panel">
+        <h2>Knowledge base</h2><p class="muted">Upload UTF-8 text, Markdown, CSV, JSON or PDF.</p>
+        <label class="drop"><input id="file" type="file" accept=".txt,.md,.csv,.json,.pdf"><strong>Choose a document</strong><span>10 MB maximum</span></label>
+        <div id="docs"></div>
+      </aside>
+      <section class="panel chat">
+        <div id="messages"><div class="welcome"><span>✦</span><h2>Ask your knowledge base</h2><p>Every response is retrieved from your documents and linked to its evidence.</p></div></div>
+        <form id="ask"><textarea id="question" placeholder="Ask a question…" rows="2" required></textarea><button>Ask →</button></form>
+      </section>
+    </section>
+  </main><script src="/static/app.js"></script>
+</body></html>
+
