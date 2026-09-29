@@ -2,6 +2,10 @@
 
 A local-first retrieval-augmented generation workbench that turns private documents into grounded, cited answers. It works without an API key in extractive mode and can use any OpenAI-compatible chat-completions provider for fluent generation.
 
+## Live demo
+
+The public Render deployment URL will be added here after the first successful deployment.
+
 ## What makes it more than a demo
 
 - Hybrid retrieval combines BM25 lexical ranking with deterministic semantic feature hashing and reciprocal-rank fusion.
@@ -67,6 +71,16 @@ docker compose up --build
 ```
 
 Uploaded knowledge is stored in the named `rag-data` volume. Never commit `.env` or database files.
+
+## Deploy to Render
+
+This repository includes a [`render.yaml`](render.yaml) Blueprint configured for a free Python web service, automatic deploys, and application-level health checks. Create a Render Blueprint from this repository or configure a Web Service with:
+
+- Build command: `pip install .`
+- Start command: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
+- Health check: `/api/health`
+
+Render's free web services use an ephemeral filesystem and spin down while idle. Uploaded documents and the local SQLite index can therefore disappear after a restart or redeploy. Use a persistent disk or external database/vector store for production data.
 
 ## Origin
 
