@@ -4,7 +4,7 @@ A local-first retrieval-augmented generation workbench that turns private docume
 
 ## Live demo
 
-The public Render deployment URL will be added here after the first successful deployment.
+[Open the live Atlas RAG application](https://atlas-rag-pipeline.onrender.com)
 
 ## What makes it more than a demo
 
@@ -13,7 +13,7 @@ The public Render deployment URL will be added here after the first successful d
 - Grounded answers include numbered evidence, retrieval/generation timings, and an explicit no-context response.
 - Prompt-injection resistance treats retrieved text as untrusted data and constrains the generator to source evidence.
 - Complete product surface: responsive UI, typed FastAPI endpoints, automatic OpenAPI docs, evaluation harness, tests, Docker, and CI.
-- No vector-database service is required. TXT, Markdown, CSV, and JSON work out of the box; PDF is optional.
+- No vector-database service is required. TXT, Markdown, CSV, JSON, and PDF work out of the box.
 
 ## Quick start
 
@@ -21,7 +21,7 @@ The public Render deployment URL will be added here after the first successful d
 python -m venv .venv
 # Windows: .venv\Scripts\activate
 # macOS/Linux: source .venv/bin/activate
-pip install -e ".[dev,pdf]"
+pip install -e ".[dev]"
 uvicorn app.main:app --reload
 ```
 

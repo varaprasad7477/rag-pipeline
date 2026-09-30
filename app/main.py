@@ -1,3 +1,4 @@
+import io
 from pathlib import Path
 from typing import Annotated
 
@@ -5,6 +6,7 @@ import httpx
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
+from pypdf import PdfReader
 
 from .config import settings
 from .models import DocumentInfo, QueryRequest, QueryResponse
@@ -45,12 +47,6 @@ async def upload(file: Annotated[UploadFile, File()]) -> dict:
         raise HTTPException(415, "supported formats: txt, md, csv, json, pdf")
     try:
         if suffix == ".pdf":
-            try:
-                from pypdf import PdfReader
-            except ImportError as exc:
-                raise HTTPException(501, "install the pdf extra: pip install -e .[pdf]") from exc
-            import io
-
             text = "\n".join(page.extract_text() or "" for page in PdfReader(io.BytesIO(raw)).pages)
         else:
             text = raw.decode("utf-8")

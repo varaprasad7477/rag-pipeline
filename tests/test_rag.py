@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from fastapi.testclient import TestClient
+from pypdf import PdfWriter
 
 from app.chunking import chunk_text
 from app.config import Settings
@@ -42,3 +43,20 @@ def test_api_health() -> None:
     response = TestClient(app).get("/api/health")
     assert response.status_code == 200
     assert response.json()["status"] == "ok"
+
+
+def test_pdf_upload_is_available_in_standard_install(tmp_path: Path, monkeypatch) -> None:
+    pdf_path = tmp_path / "sample.pdf"
+    writer = PdfWriter()
+    writer.add_blank_page(width=100, height=100)
+    with pdf_path.open("wb") as output:
+        writer.write(output)
+
+    monkeypatch.setattr("app.main.service.ingest", lambda name, text: ("pdf-doc", 1, True))
+    with pdf_path.open("rb") as uploaded:
+        response = TestClient(app).post(
+            "/api/documents", files={"file": ("sample.pdf", uploaded, "application/pdf")}
+        )
+
+    assert response.status_code == 201
+    assert response.json() == {"id": "pdf-doc", "chunks": 1, "created": True}
